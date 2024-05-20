@@ -10,7 +10,8 @@ const correctMessage = document.getElementById('correct');
 
 let targetNumber;
 let attempts = 0;
-const maxNumberOfAttempts = 5;
+//bug 3 replace const with let 
+let maxNumberOfAttempts = 5;
 
 // Returns a random number from min (inclusive) to max (exclusive)
 // Usage:
@@ -23,8 +24,14 @@ function getRandomNumber(min, max) {
 }
 
 function checkGuess() {
+  // bug call hideAllMessages here?
   // Get value from guess input element
   const guess = parseInt(guessInput.value, 10);
+  // bug 8 create range 
+  if (isNaN(guess) || guess < 1 || guess > 99) {
+    // Display error message and return
+    return;
+  }
   attempts = attempts + 1;
 
   hideAllMessages();
@@ -43,7 +50,7 @@ function checkGuess() {
     if (guess < targetNumber) {
       tooLowMessage.style.display = '';
     } else {
-      tooLowMessage.style.display = '';
+      tooHighMessage.style.display = ''; //bug 7 replaced too low with too high
     }
 
     const remainingAttempts = maxNumberOfAttempts - attempts;
@@ -51,8 +58,10 @@ function checkGuess() {
     numberOfGuessesMessage.style.display = '';
     numberOfGuessesMessage.innerHTML = `You guessed ${guess}. <br> ${remainingAttempts} guesses remaining`;
   }
-
-  if (attempts ==== maxNumberOfAttempts) {
+  //bug 1 remove =
+  if (attempts === maxNumberOfAttempts) {
+  //bug 6 show correct message on max attempts
+    maxGuessesMessage.style.display =''; 
     submitButton.disabled = true;
     guessInput.disabled = true;
   }
@@ -63,21 +72,24 @@ function checkGuess() {
 }
 
 function hideAllMessages() {
-  for (let elementIndex = 0; elementIndex <= messages.length; elementIndex++) {
+  //bug 4 use less than not less than equal 
+  for (let elementIndex = 0; elementIndex < messages.length; elementIndex++) {
     messages[elementIndex].style.display = 'none';
   }
 }
-
-funtion setup() {
+//bug 2 spell check funtion
+function setup() {
   // Get random number
   targetNumber = getRandomNumber(1, 100);
   console.log(`target number: ${targetNumber}`);
 
   // Reset number of attempts
   maxNumberOfAttempts = 0;
+  // bug 5 reset all attempts 
+  attempts = 0;
 
   // Enable the input and submit button
-  submitButton.disabeld = false;
+  submitButton.disabled = false; // bug 6 typo disabeld
   guessInput.disabled = false;
 
   hideAllMessages();
@@ -88,3 +100,7 @@ submitButton.addEventListener('click', checkGuess);
 resetButton.addEventListener('click', setup);
 
 setup();
+
+//bug need a Game Over Message 
+  // Game over, show reset button
+  // Game over, show reset button and correct number
